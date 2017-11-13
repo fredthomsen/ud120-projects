@@ -25,9 +25,17 @@ features_train, features_test, labels_train, labels_test = preprocess()
 ### your code goes here ###
 from sklearn.naive_bayes import GaussianNB as gnb
 
+def timed_func(f, *vargs, **kwargs):
+    start = time()
+    ret_val = f(*vargs, **kwargs)
+    elapsed = time() - start
+    print("%s: %s") % (f.__name__, elapsed)
+    return ret_val
+
+
 clf = gnb()
-clf.fit(features_train, labels_train)
-pred = clf.predict(features_test)
+timed_func(clf.fit, features_train, labels_train)
+pred = timed_func(clf.predict, features_test)
 accuracy = clf.score(features_test, labels_test)
 
 print accuracy
